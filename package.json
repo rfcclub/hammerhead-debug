@@ -1,6 +1,6 @@
 {
   "name": "@gotako/hammerhead-debug",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Hypothesis-gated debug loop — no fix until a prediction is confirmed by a real probe. DAP-native.",
   "type": "module",
   "main": "dist/index.js",
