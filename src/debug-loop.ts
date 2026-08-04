@@ -7,7 +7,7 @@ export function createDebugLoopJson(
   sessionId: string,
   opts: {
     boundRepoSha: string
-    servesTask: { plan: string; task: string }
+    servesTask?: { plan: string; task: string } | null
     symptom: { description: string; repro_cmd: string }
   },
 ): DebugLoopJson {
@@ -15,7 +15,7 @@ export function createDebugLoopJson(
     schema_version: '1.0',
     session_id: sessionId,
     bound_repo_sha: opts.boundRepoSha,
-    serves_task: opts.servesTask,
+    serves_task: opts.servesTask ?? null,
     symptom: { description: opts.symptom.description, repro_cmd: opts.symptom.repro_cmd, repro_sha256: null },
     cycles: [],
     fix: { authorized_by_cycle: null, applied: false, diff_sha256: null },

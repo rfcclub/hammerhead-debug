@@ -65,7 +65,9 @@ export interface DebugLoopJson {
   schema_version: '1.0'
   session_id: string
   bound_repo_sha: string
-  serves_task: { plan: string; task: string }
+  /** null for a standalone session opened directly by an agent (not tied to a
+   *  loomkit-managed plan task) — see debug-loop-skill-layer. */
+  serves_task: { plan: string; task: string } | null
   symptom: DebugSymptom
   cycles: DebugCycle[]
   fix: DebugFix
