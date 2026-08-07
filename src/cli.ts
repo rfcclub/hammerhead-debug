@@ -5,6 +5,7 @@ import { readdirSync } from 'fs'
 import { createDebugLoopJson, readDebugLoopJson, writeDebugLoopJson } from './debug-loop.js'
 import { DebugGuard, checkSymptomResolved } from './debug-guard.js'
 import { runDapProbe } from './dap-probe.js'
+import { installSkill, type AgentTarget } from './install.js'
 import type { DebugCycle, DebugProbe } from './types.js'
 
 const DEFAULT_DIR = '.hammerhead-debug'
@@ -174,6 +175,23 @@ function cmdList(flags: Record<string, string | boolean>): void {
   process.stdout.write(JSON.stringify({ sessions: files.map(f => f.replace(/\.json$/, '')) }, null, 2) + '\n')
 }
 
+const KNOWN_AGENTS: AgentTarget[] = ['claude-code', 'codex']
+
+function cmdInstall(flags: Record<string, string | boolean>): void {
+  let agents: AgentTarget[] | undefined
+  if (typeof flags.agent === 'string') {
+    if (!KNOWN_AGENTS.includes(flags.agent as AgentTarget)) {
+      fail(`unknown --agent "${flags.agent}" — expected one of: ${KNOWN_AGENTS.join(', ')}`)
+    }
+    agents = [flags.agent as AgentTarget]
+  }
+  const global = !flags.project
+  const result = installSkill({ agents, global })
+  process.stdout.write(
+    `Installed hammerhead-debug skill:\n` + result.installed.map(i => `  [${i.agent}] ${i.path}`).join('\n') + '\n',
+  )
+}
+
 async function main(): Promise<void> {
   const [command, ...rest] = process.argv.slice(2)
   const { positional, flags } = parseFlags(rest)
@@ -195,10 +213,13 @@ async function main(): Promise<void> {
       return cmdCheck(positional, flags)
     case 'list':
       return cmdList(flags)
+    case 'install':
+      return cmdInstall(flags)
     default:
       process.stdout.write(`hammerhead-debug — hypothesis-gated debugging, DAP-native
 
 Usage:
+  hammerhead-debug install [--agent claude-code|codex] [--project]
   hammerhead-debug open --symptom "<desc>" --repro "<cmd>" [--plan <p> --task <t>] [--dir <dir>]
   hammerhead-debug hypothesis <session-id> "<hypothesis>" --predict "<prediction>"
   hammerhead-debug probe <session-id> --kind dap --break <path:line> --evaluate "<expr>" [--script <path>]

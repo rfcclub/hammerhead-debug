@@ -4,6 +4,8 @@ export { runDapProbe } from './dap-probe.js'
 export { runDapCli, classifyDapOutput, defaultDapCliRunner } from './dap-cli.js'
 export type { DapCliResult, DapCliRunner, StoppedData, EvalData } from './dap-cli.js'
 export { sha256File, sha256String } from './sha256.js'
+export { installSkill, defaultSkillSourcePath } from './install.js'
+export type { AgentTarget, InstallOptions, InstallResult } from './install.js'
 export type {
   CycleStatus,
   ProbeKind,
