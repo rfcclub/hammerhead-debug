@@ -1,5 +1,15 @@
 # hammerhead-debug
 
+> ⚠️ **BETA channel (`@beta` npm tag).** Published as part of a
+> coordinated beta release across the LoomKit harness family (loomkit,
+> seal-gate, hammerhead-debug, pilotfish) so `npm install
+> @gotako/loomkit@beta` can pull in real dependency versions instead of
+> requiring all four repos cloned side by side. **Expect crashes,
+> missing pieces, and breaking changes without notice.** Not
+> production-ready. Install the default (non-`@beta`) dist-tag for a
+> stable version once one exists; only opt into `@beta` if you know
+> what you're doing and are willing to hit rubbish.
+
 Hypothesis-gated debugging. No fix is ever written until a hypothesis is
 **CONFIRMED** by a real, captured observation — a real debugger stop, a
 real log line, a real test result. Never a guess dressed up as
