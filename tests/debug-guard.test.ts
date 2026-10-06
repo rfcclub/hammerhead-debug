@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { describe, it, expect } from 'vitest'
 import { DebugGuard, checkSymptomResolved } from '../src/debug-guard.ts'
 import type { DebugCycle, DebugLoopJson, DebugProbe } from '../src/types.ts'
@@ -54,7 +55,7 @@ describe('DebugGuard.verdictIsHonest', () => {
 
   it('allows a verdict backed by a captured observation hash', () => {
     const guard = new DebugGuard()
-    const cycle: DebugCycle = { id: 'H1', status: 'open', hypothesis: 'h', prediction: 'p', observation: { captured: 'x', observation_sha256: 'abc' } }
+    const cycle: DebugCycle = { id: 'H1', status: 'open', hypothesis: 'h', prediction: 'p', observation: { captured: 'x', observation_sha256: createHash('sha256').update('x').digest('hex') } }
     expect(() => guard.verdictIsHonest(cycle)).not.toThrow()
   })
 })
@@ -76,6 +77,7 @@ describe('DebugGuard.canWriteFix', () => {
   it('allows a fix authorized by a confirmed cycle', () => {
     const guard = new DebugGuard()
     const session = makeSession([{ id: 'H2', status: 'confirmed', hypothesis: 'h', prediction: 'p', verdict: { prediction_held: true, result: 'CONFIRMED' } }])
+    session.cycles[0].observation = { captured: 'x', observation_sha256: createHash('sha256').update('x').digest('hex') }
     session.fix.authorized_by_cycle = 'H2'
     expect(() => guard.canWriteFix(session)).not.toThrow()
   })

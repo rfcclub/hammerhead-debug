@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "session_id": "dbg-2348c88b",
+  "bound_repo_sha": "2e77f3351e2208ee36e4cae4091e56962cc54c70",
+  "serves_task": null,
+  "symptom": {
+    "description": "Guard accepts edited observation hash and fifth hypothesis after exhausted budget",
+    "repro_cmd": "npm test -- tests/evidence-integrity.test.ts",
+    "repro_sha256": null
+  },
+  "cycles": [
+    {
+      "id": "c-1",
+      "status": "confirmed",
+      "hypothesis": "Guard checks only hash presence and reports budget without rejecting next cycle",
+      "prediction": "Tampered hash accepted; escalation true but fifth hypothesis allowed",
+      "probe": {
+        "action": "instrumentation",
+        "kind": "instrumentation"
+      },
+      "observation": {
+        "captured": "tampered hash accepted\nescalation={\"escalate\":true,\"reason\":\"cycle budget exhausted\"}\nfifth hypothesis allowed after exhausted budget\n",
+        "observation_sha256": "b22db2365a10c976359b34eb4d215bb623cb40aa80b945a758ea623643b00276"
+      },
+      "verdict": {
+        "prediction_held": true,
+        "result": "CONFIRMED",
+        "reason": "Built guard instrumentation accepted tampered hash and fifth hypothesis while reporting exhausted budget"
+      }
+    },
+    {
+      "id": "c-2",
+      "status": "confirmed",
+      "hypothesis": "Budget validation and captured-text/verdict consistency checks are missing",
+      "prediction": "The five budget and integrity regression assertions fail while the valid actual CLI path passes",
+      "probe": {
+        "action": "isolated_test",
+        "kind": "isolated_test"
+      },
+      "observation": {
+        "captured": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":0,\"numFailedTestSuites\":1,\"numPendingTestSuites\":0,\"numTotalTests\":6,\"numPassedTests\":1,\"numFailedTests\":5,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791327632954,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"exhausted-budget: rejects a fifth hypothesis after four refutations\",\"status\":\"failed\",\"title\":\"exhausted-budget: rejects a fifth hypothesis after four refutations\",\"duration\":3.4484159999999946,\"failureMessages\":[\"AssertionError: expected [Function] to throw an error\\n    at Proxy.<anonymous> (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/expect/dist/index.js:1552:16)\\n    at Proxy.<anonymous> (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/expect/dist/index.js:1156:15)\\n    at Proxy.methodWrapper (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/chai/index.js:1700:25)\\n    at /private/tmp/hammerhead-orca-coda-s9jzbo9f/tests/evidence-integrity.test.ts:16:71\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\\n    at new Promise (<anonymous>)\\n    at runWithCancel (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"invalid-budget: rejects invalid refutation limits\",\"status\":\"failed\",\"title\":\"invalid-budget: rejects invalid refutation limits\",\"duration\":0.339375000000004,\"failureMessages\":[\"AssertionError: expected [Function] to throw an error\\n    at Proxy.<anonymous> (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/expect/dist/index.js:1552:16)\\n    at Proxy.<anonymous> (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/expect/dist/index.js:1156:15)\\n    at Proxy.methodWrapper (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/chai/index.js:1700:25)\\n    at /private/tmp/hammerhead-orca-coda-s9jzbo9f/tests/evidence-integrity.test.ts:20:176\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\\n    at new Promise (<anonymous>)\\n    at runWithCancel (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"tampered-observation: refuses verdict and fix after captured text changes\",\"status\":\"failed\",\"title\":\"tampered-observation: refuses verdict and fix after captured text changes\",\"duration\":0.2292500000000075,\"failureMessages\":[\"AssertionError: expected [Function] to throw an error\\n    at Proxy.<anonymous> (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/expect/dist/index.js:1552:16)\\n    at Proxy.<anonymous> (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/expect/dist/index.js:1156:15)\\n    at Proxy.methodWrapper (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/chai/index.js:1700:25)\\n    at /private/tmp/hammerhead-orca-coda-s9jzbo9f/tests/evidence-integrity.test.ts:23:98\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\\n    at new Promise (<anonymous>)\\n    at runWithCancel (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"empty-observation: matching hash does not make whitespace evidence\",\"status\":\"failed\",\"title\":\"empty-observation: matching hash does not make whitespace evidence\",\"duration\":0.19724999999999682,\"failureMessages\":[\"AssertionError: expected [Function] to throw an error\\n    at Proxy.<anonymous> (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/expect/dist/index.js:1552:16)\\n    at Proxy.<anonymous> (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/expect/dist/index.js:1156:15)\\n    at Proxy.methodWrapper (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/chai/index.js:1700:25)\\n    at /private/tmp/hammerhead-orca-coda-s9jzbo9f/tests/evidence-integrity.test.ts:28:165\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\\n    at new Promise (<anonymous>)\\n    at runWithCancel (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"inconsistent-verdict: rejects a refuted result disguised as confirmed\",\"status\":\"failed\",\"title\":\"inconsistent-verdict: rejects a refuted result disguised as confirmed\",\"duration\":0.19529199999999491,\"failureMessages\":[\"AssertionError: expected [Function] to throw an error\\n    at Proxy.<anonymous> (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/expect/dist/index.js:1552:16)\\n    at Proxy.<anonymous> (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/expect/dist/index.js:1156:15)\\n    at Proxy.methodWrapper (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/chai/index.js:1700:25)\\n    at /private/tmp/hammerhead-orca-coda-s9jzbo9f/tests/evidence-integrity.test.ts:31:98\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\\n    at new Promise (<anonymous>)\\n    at runWithCancel (file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\\n    at file:///private/tmp/hammerhead-orca-coda-s9jzbo9f/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"actual-cli-handoff: requires captured confirmation and reruns a real repro\",\"status\":\"passed\",\"title\":\"actual-cli-handoff: requires captured confirmation and reruns a real repro\",\"duration\":430.749291,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791327633060,\"endTime\":1791327633494.7493,\"status\":\"failed\",\"message\":\"\",\"name\":\"/private/tmp/hammerhead-orca-coda-s9jzbo9f/tests/evidence-integrity.test.ts\"}]}",
+        "observation_sha256": "17b212328ac962e32bea5d0c752e06ce5829355dc2db9dcb1c834bb8722001a0"
+      },
+      "verdict": {
+        "prediction_held": true,
+        "result": "CONFIRMED",
+        "reason": "Actual runner JSON shows five integrity/budget assertion failures and one valid CLI pass"
+      }
+    }
+  ],
+  "fix": {
+    "authorized_by_cycle": "c-2",
+    "applied": true,
+    "diff_sha256": "46ee4180f740943e2bead74d1f5cedd5988bc526ae11635959c6cf9d11edcd56"
+  },
+  "escalation": {
+    "max_refuted_cycles": 4,
+    "on_exhaust": "STOP and escalate — hand session + all cycles to stronger model or human"
+  }
+}

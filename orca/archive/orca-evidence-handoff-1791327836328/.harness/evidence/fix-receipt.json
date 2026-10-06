@@ -1,0 +1,8 @@
+{
+  "authorized": true,
+  "fix": {
+    "authorized_by_cycle": "c-2",
+    "applied": true,
+    "diff_sha256": "46ee4180f740943e2bead74d1f5cedd5988bc526ae11635959c6cf9d11edcd56"
+  }
+}

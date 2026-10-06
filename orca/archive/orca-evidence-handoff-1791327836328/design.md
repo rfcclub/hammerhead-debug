@@ -1,0 +1,7 @@
+# Design
+
+DebugGuard.canOpenCycle checks the existing escalation result and validates a positive safe-integer budget. verdictIsHonest checks nonblank captured text and its actual sha256String equality. canWriteFix requires status confirmed, verdict result CONFIRMED and prediction_held true, then reruns observation integrity on the authorizing cycle. This detects accidental/tampered text without pretending to authenticate independently supplied logs; a caller able to rewrite the text and hash still controls the observation.
+
+No new package dependency. Instrumentation CLI still records supplied exact observation, DAP still requires a separately installed real debugger, semantic verdict remains operator responsibility. No automatic debug execution, source sandbox or independent truth claim. Existing callers with placeholder hashes or incomplete confirmed records must recapture evidence. Budget exhaustion requires a new authorized investigation rather than more guesses in the same session.
+
+Tests exercise actual public guards and actual CLI subprocesses with a real failed Node assertion and immutable original repro; preserve confirmed instrumentation before code edits and exact RED/GREEN reporter receipts. Package integration runs the same CLI test against isolated and registered installed candidates. Node fixture is not a live DAP proof. README and shipped skill explain current Orca handoff and explicit trust/rollback boundaries.

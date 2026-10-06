@@ -1,21 +1,13 @@
 # hammerhead-debug
 
-> ⚠️ **BETA channel (`@beta` npm tag).** Published as part of a
-> coordinated beta release across the LoomKit harness family (loomkit,
-> seal-gate, hammerhead-debug, pilotfish) so `npm install
-> @gotako/loomkit@beta` can pull in real dependency versions instead of
-> requiring all four repos cloned side by side. **Expect crashes,
-> missing pieces, and breaking changes without notice.** Not
-> production-ready. Install the default (non-`@beta`) dist-tag for a
-> stable version once one exists; only opt into `@beta` if you know
-> what you're doing and are willing to hit rubbish.
+> **Local candidate.** This Orca handoff release is installed from a reviewed tarball; it has no npm registry publication.
 
 Hypothesis-gated debugging. No fix is ever written until a hypothesis is
 **CONFIRMED** by a real, captured observation — a real debugger stop, a
 real log line, a real test result. Never a guess dressed up as
 confidence.
 
-Standalone package — no dependency on LoomKit or any other tool in this
+Standalone package — no dependency on Orca or any other tool in this
 family. Usable directly by an agent (as a Claude Code / Codex skill), by
 a human at the CLI, or as a library.
 
@@ -30,15 +22,16 @@ symptom → [hypothesis → predict → probe → observe → verdict]* → fix
 - **probe**: gather real evidence — either a real debugger operation
   (DAP: set a breakpoint, hit it, evaluate an expression in that live
   stack frame) or a captured log/instrumentation/test result. A probe
-  can **only** gather evidence — it is structurally forbidden from
-  modifying the code under repair.
+  records evidence from an allowed probe kind. Operator-supplied logs,
+  debugger expressions and repro commands remain trusted inputs; this is
+  not a source sandbox.
 - **verdict**: CONFIRMED (prediction held) or REFUTED (it didn't) — and
-  a verdict without a real captured observation is rejected outright,
+  a verdict without nonblank captured text and a matching SHA256 is rejected outright,
   not just discouraged.
 - **fix**: only writable once a cycle is CONFIRMED. Exhausting
   `max_refuted_cycles` (default 4) without a confirmed hypothesis means
-  stop guessing and escalate to a stronger model or a human — not "try
-  one more thing."
+  opening another cycle is mechanically blocked; stop and hand off to a stronger
+  model or a human.
 
 ## Install
 
@@ -76,8 +69,8 @@ hammerhead-debug list [--dir <dir>]
 ```
 
 `--dir` defaults to `.hammerhead-debug` (relative to cwd) and is where
-session JSON files are written/read. Point it at a LoomKit changeDir
-(`loomkit/changes/<name>` or `openspec/changes/<name>`) to tie a debug
+session JSON files are written/read. Point it at a Orca changeDir
+(`orca/changes/<name>` or `openspec/changes/<name>`) to tie a debug
 session's evidence to the plan task it serves.
 
 ### Example
@@ -142,17 +135,17 @@ import {
 `escalateIfNeeded`) if you're building your own tool on top rather than
 using the CLI directly.
 
-## Relationship to LoomKit
+## Relationship to Orca
 
-Originally built inside LoomKit's `src/harness/`, extracted to its own
+Originally built inside Orca's `src/harness/`, extracted to its own
 package (matching how `seal-gate` already stood apart) once it became a
-general-purpose debugging tool, not something specific to LoomKit's own
-lifecycle. LoomKit depends on this package (`file:../hammerhead-debug`)
+general-purpose debugging tool, not something specific to Orca's own
+lifecycle. Orca consumes this package API
 only to *read* a debug session's verdict when a plan task's completion
-references one (`loomkit plan-json complete --debug-session ...
+references one (`orca plan-json complete --debug-session ...
 --debug-cycle ...`) — this package has zero dependency in the other
-direction and works standalone. See `~/work/loomkit/HARNESS.md` for the
-full pipeline (LoomKit + seal-gate + hammerhead-debug + pilotfish
+direction and works standalone. See `Orca docs/execution-loop.md` for the
+full pipeline (Orca + seal-gate + hammerhead-debug + pilotfish
 together).
 
 ## Test
@@ -164,3 +157,29 @@ npx vitest run
 ## License
 
 ISC
+
+## Evidence and migration limits
+
+Hash integrity detects edited captured text; it does not authenticate supplied
+logs or prove a semantic hypothesis. Instrumentation/isolated_test/trace_read
+record exact evidence the operator collected; CONFIRMED remains an operator
+verdict. Fix authorization rechecks the authorizing observation and requires
+confirmed status, CONFIRMED result and a held prediction. Old sessions with
+placeholder hashes, empty capture or contradictory confirmation must recapture
+evidence. Opening another hypothesis after an exhausted/invalid budget is
+blocked; a separately authorized investigation can use a new session.
+
+The Orca bounded loop stops with a handoff; it does not automatically run
+Hammerhead. Follow the handoff command, gather/record evidence, fix only after
+confirmation, and rerun the repro plus Orca's executable test evidence/gates
+before completing the task. Hammerhead check only executes the supplied repro
+command and reports its exit result, which cannot independently certify GREEN.
+No GitHub account is required for these local commands.
+
+## Local migration rollback plan
+
+Preserve the complete existing installed Hammerhead package and launcher before
+replacement. Restore their exact predecessor bytes if the installed CLI guard
+and repro tests fail. Keep package/command receipts and any previous skill bytes;
+do not replace an agent's installed skill without a recorded predecessor.
+The release does not alter user source checkouts or publish to npm.
