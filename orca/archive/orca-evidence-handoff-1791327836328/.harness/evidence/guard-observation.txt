@@ -1,0 +1,3 @@
+tampered hash accepted
+escalation={"escalate":true,"reason":"cycle budget exhausted"}
+fifth hypothesis allowed after exhausted budget

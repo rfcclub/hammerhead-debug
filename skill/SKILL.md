@@ -33,7 +33,7 @@ tested against real evidence and held.
    hammerhead-debug hypothesis <session-id> "<why you think the bug happens>" --predict "<what you expect to observe if you're right>"
    ```
    Only one hypothesis may be open at a time — resolve it (confirm or
-   refute) before opening another. This is enforced, not a suggestion.
+   refute) before opening another. This is enforced, including the refutation budget.
 
 3. **Probe for real evidence** — two shapes:
    - **DAP** (preferred when you can reach the running/runnable program):
@@ -49,9 +49,10 @@ tested against real evidence and held.
      ```bash
      hammerhead-debug probe <session-id> --kind instrumentation --observation "<exact captured evidence — quote it, don't paraphrase>"
      ```
-   Either way, the probe **only gathers evidence — it must never modify
-   the code you're debugging.** That's enforced by the guard, not left to
-   discipline.
+   Either way, the probe **must only gather evidence and must not modify
+   the code being debugged.** The guard validates allowed probe kinds and
+   captured hash integrity; it does not sandbox debugger expressions or
+   operator instrumentation.
 
 4. **Render an honest verdict**:
    ```bash
@@ -124,3 +125,14 @@ Sessions live under `.hammerhead-debug/` in the current working directory
 by default (override with `--dir <path>` on any command). Not tied to any
 particular project's task-tracking system — this works standalone, in any
 repo, for any bug, invoked directly by you.
+
+## Evidence integrity and Orca handoff
+
+Observation hashes are recomputed at verdict and fix authorization. Empty or
+edited capture and inconsistent confirmed verdicts are rejected. Hash equality
+is an integrity check, not independent authentication of operator-supplied logs
+or proof of a semantic hypothesis. Keep raw original command/debugger receipts.
+An exhausted or invalid refutation budget blocks another hypothesis in that
+session. Orca loop hands off manually; it does not execute Hammerhead for you.
+After fixing, rerun the repro and Orca executable evidence/gates. Shell exit
+zero alone does not certify harness GREEN. These commands work without GitHub.

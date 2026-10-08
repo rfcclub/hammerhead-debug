@@ -66,7 +66,7 @@ export interface DebugLoopJson {
   session_id: string
   bound_repo_sha: string
   /** null for a standalone session opened directly by an agent (not tied to a
-   *  loomkit-managed plan task) — see debug-loop-skill-layer. */
+   *  Orca-managed plan task) — see debug-loop-skill-layer. */
   serves_task: { plan: string; task: string } | null
   symptom: DebugSymptom
   cycles: DebugCycle[]

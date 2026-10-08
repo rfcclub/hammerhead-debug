@@ -1,0 +1,19 @@
+scenarios:
+  - scenario: bounded-hypothesis-budget-exhausted-budget
+    test: tests/evidence-integrity.test.ts
+    assertion: "exhausted-budget: rejects a fifth hypothesis after four refutations"
+  - scenario: bounded-hypothesis-budget-invalid-budget
+    test: tests/evidence-integrity.test.ts
+    assertion: "invalid-budget: rejects invalid refutation limits"
+  - scenario: observation-integrity-tampered-observation
+    test: tests/evidence-integrity.test.ts
+    assertion: "tampered-observation: refuses verdict and fix after captured text changes"
+  - scenario: observation-integrity-empty-observation
+    test: tests/evidence-integrity.test.ts
+    assertion: "empty-observation: matching hash does not make whitespace evidence"
+  - scenario: observation-integrity-inconsistent-verdict
+    test: tests/evidence-integrity.test.ts
+    assertion: "inconsistent-verdict: rejects a refuted result disguised as confirmed"
+  - scenario: standalone-manual-handoff-actual-cli-handoff
+    test: tests/evidence-integrity.test.ts
+    assertion: "actual-cli-handoff: requires captured confirmation and reruns a real repro"

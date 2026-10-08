@@ -1,0 +1,26 @@
+[
+  {
+    "id": "SC-1",
+    "text": "SC-1: Exhausted or invalid refutation budgets cannot open a new hypothesis; under-budget valid prediction works.",
+    "source_file": "intent.md",
+    "source_line": 16
+  },
+  {
+    "id": "SC-2",
+    "text": "SC-2: Verdict and fix authorization reject missing, empty or mismatched captured evidence and inconsistent confirmed verdicts; intact observation hashes work.",
+    "source_file": "intent.md",
+    "source_line": 17
+  },
+  {
+    "id": "SC-3",
+    "text": "SC-3: Real CLI can record actual failed-test observation, confirm a matching prediction, authorize a fix, and rerun the repro to observe failure then success; it blocks fix before confirmation and verdict before observation.",
+    "source_file": "intent.md",
+    "source_line": 18
+  },
+  {
+    "id": "SC-4",
+    "text": "SC-4: Build/full tests, executable verify/gates/archive, isolated package and registered installed CLI evidence, byte-matched rollback and draft PR complete local delivery without GitHub or LoomKit runtime dependency.",
+    "source_file": "intent.md",
+    "source_line": 19
+  }
+]
