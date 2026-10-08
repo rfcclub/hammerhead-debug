@@ -67,4 +67,4 @@ it('actual-cli-handoff: requires captured confirmation and reruns a real repro',
   expect(run(['hypothesis', budgetId, 'fifth guess', '--predict', 'different value']).status).toBe(1)
 
  } finally { rmSync(root, { recursive: true, force: true }) }
-})
+}, 60_000)

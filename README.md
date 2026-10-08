@@ -69,7 +69,7 @@ hammerhead-debug list [--dir <dir>]
 ```
 
 `--dir` defaults to `.hammerhead-debug` (relative to cwd) and is where
-session JSON files are written/read. Point it at a Orca changeDir
+session JSON files are written/read. Point it at an Orca changeDir
 (`orca/changes/<name>` or `openspec/changes/<name>`) to tie a debug
 session's evidence to the plan task it serves.
 
@@ -144,19 +144,17 @@ lifecycle. Orca consumes this package API
 only to *read* a debug session's verdict when a plan task's completion
 references one (`orca plan-json complete --debug-session ...
 --debug-cycle ...`) — this package has zero dependency in the other
-direction and works standalone. See `Orca docs/execution-loop.md` for the
+direction and works standalone. See `Orca docs/loop-evidence.md` for the
 full pipeline (Orca + seal-gate + hammerhead-debug + pilotfish
 together).
 
 ## Test
 
 ```bash
+npm ci
+npm run build
 npx vitest run
 ```
-
-## License
-
-ISC
 
 ## Evidence and migration limits
 
@@ -183,3 +181,7 @@ replacement. Restore their exact predecessor bytes if the installed CLI guard
 and repro tests fail. Keep package/command receipts and any previous skill bytes;
 do not replace an agent's installed skill without a recorded predecessor.
 The release does not alter user source checkouts or publish to npm.
+
+## License
+
+ISC
