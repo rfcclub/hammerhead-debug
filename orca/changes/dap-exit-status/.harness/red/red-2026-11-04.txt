@@ -1,0 +1,30 @@
+PASS (15) FAIL (5)
+
+1. runDapCli exit status nonzero-json: valid JSON with a nonzero exit is an error
+   AssertionError: expected 'ok' to be 'error' // Object.is equality
+       at /Users/thoor/work/hammerhead-wt/dap-exit-code/tests/dap-cli.test.ts:116:25
+       at processTicksAndRejections (node:internal/process/task_queues:104:5)
+       at file:///Users/thoor/work/hammerhead-wt/dap-exit-code/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20
+2. runDapCli exit status spawn-failure: a missing dap binary is an error
+   AssertionError: expected 'ok' to be 'error' // Object.is equality
+       at /Users/thoor/work/hammerhead-wt/dap-exit-code/tests/dap-cli.test.ts:127:25
+       at processTicksAndRejections (node:internal/process/task_queues:104:5)
+       at file:///Users/thoor/work/hammerhead-wt/dap-exit-code/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20
+3. runDapCli exit status timeout: a dap command past the timeout is an error
+   AssertionError: expected 'ok' to be 'error' // Object.is equality
+       at /Users/thoor/work/hammerhead-wt/dap-exit-code/tests/dap-cli.test.ts:135:25
+       at file:///Users/thoor/work/hammerhead-wt/dap-exit-code/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20
+4. runDapProbe exit status eval-nonzero: does not record an eval value from a nonzero exit
+   AssertionError: expected 'stopped(breakpoint) at app.py:2: a + …' not to contain '= 5'
+       at /Users/thoor/work/hammerhead-wt/dap-exit-code/tests/dap-probe.test.ts:124:38
+       at processTicksAndRejections (node:internal/process/task_queues:104:5)
+       at file:///Users/thoor/work/hammerhead-wt/dap-exit-code/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20
+5. runDapProbe exit status debug-nonzero: throws when debug exits nonzero
+   AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string
+       at Proxy.<anonymous> (file:///Users/thoor/work/hammerhead-wt/dap-exit-code/node_modules/@vitest/expect/dist/index.js:1319:15)
+       at Proxy.<anonymous> (file:///Users/thoor/work/hammerhead-wt/dap-exit-code/node_modules/@vitest/expect/dist/index.js:1156:15)
+       at Proxy.methodWrapper (file:///Users/thoor/work/hammerhead-wt/dap-exit-code/node_modules/chai/index.js:1737:25)
+       at /Users/thoor/work/hammerhead-wt/dap-exit-code/tests/dap-probe.test.ts:130:28
+       at processTicksAndRejections (node:internal/process/task_queues:104:5)
+       at file:///Users/thoor/work/hammerhead-wt/dap-exit-code/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20
+[full output: ~/Library/Application Support/rtk/tee/1793800972_vitest_run.log]

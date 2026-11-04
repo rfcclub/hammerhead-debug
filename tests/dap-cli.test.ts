@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest'
-import { classifyDapOutput, runDapCli } from '../src/dap-cli.ts'
+import { mkdtempSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { classifyDapOutput, defaultDapCliRunner, runDapCli } from '../src/dap-cli.ts'
 
 // Real output captured from a live `dap debug`/`dap eval`/`dap stop` run against
 // ~/repo/debug-skill's built binary + a debugpy-backed Python fixture, 2026-08-03 —
@@ -103,4 +106,32 @@ describe('runDapCli', () => {
     expect(capturedArgs).toEqual(['eval', 'x + y', '--json'])
     expect(result.kind).toBe('ok')
   })
+})
+
+describe('runDapCli exit status', () => {
+  const exiting = (stdout: string, exitCode: number) => async () => ({ stdout, exitCode })
+
+  it('nonzero-json: valid JSON with a nonzero exit is an error', async () => {
+    const result = await runDapCli(exiting(JSON.stringify({ eval_result: { value: '5', type: 'int' } }), 42), ['eval', 'x'])
+    expect(result.kind).toBe('error')
+    expect(result.kind === 'error' && result.message).toContain('42')
+  })
+
+  it('terminated-nonzero: Program terminated keeps its kind at a nonzero exit', async () => {
+    const result = await runDapCli(exiting('Program terminated\nExit code: 1\n', 1), ['continue'])
+    expect(result).toMatchObject({ kind: 'terminated', exitCode: 1 })
+  })
+
+  it('spawn-failure: a missing dap binary is an error', async () => {
+    const result = await runDapCli(defaultDapCliRunner('/nonexistent/hammerhead-dap'), ['stop'])
+    expect(result.kind).toBe('error')
+  })
+
+  it('timeout: a dap command past the timeout is an error', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'hh-dap-'))
+    const bin = join(dir, 'dap')
+    writeFileSync(bin, '#!/bin/sh\nsleep 5\necho \'{"eval_result":{"value":"5","type":"int"}}\'\n', { mode: 0o755 })
+    const result = await runDapCli(defaultDapCliRunner(bin, 200), ['eval', 'x'])
+    expect(result.kind).toBe('error')
+  }, 10_000)
 })

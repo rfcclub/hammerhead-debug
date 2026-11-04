@@ -1,0 +1,152 @@
+{
+  "verdict": "PASS_WITH_WARNINGS",
+  "trust_score": 80,
+  "risk_level": "MEDIUM",
+  "summary": "PASS_WITH_WARNINGS (trust_score=80, risk=MEDIUM): 0 blocking, 5 non-blocking, 0 fabricated",
+  "deterministic_findings": [
+    {
+      "type": "SPEC_MISMATCH",
+      "severity": "MEDIUM",
+      "layer": "L1",
+      "source": "core",
+      "rule_id": "SV101",
+      "trust_deduction": 10,
+      "evidence": "Acceptance criterion not covered at execution level: \"**WHEN** a dap command prints valid JSON and exits 42\"",
+      "suggested_fix": "Add a test or assertion covering: **WHEN** a dap command prints valid JSON and exits 42",
+      "is_blocking": false,
+      "citation_status": "not_applicable"
+    },
+    {
+      "type": "SPEC_MISMATCH",
+      "severity": "MEDIUM",
+      "layer": "L1",
+      "source": "core",
+      "rule_id": "SV101",
+      "trust_deduction": 10,
+      "evidence": "Acceptance criterion not covered at execution level: \"**THEN** `runDapCli` returns kind `error` and the message names exit code 42.\"",
+      "suggested_fix": "Add a test or assertion covering: **THEN** `runDapCli` returns kind `error` and the message names exit code 42.",
+      "is_blocking": false,
+      "citation_status": "not_applicable"
+    },
+    {
+      "type": "TEST_GAP",
+      "severity": "MEDIUM",
+      "layer": "L4",
+      "source": "core",
+      "rule_id": "TW202",
+      "trust_deduction": 10,
+      "evidence": "Tests appear to cover happy path only for MEDIUM risk artifact",
+      "suggested_fix": "Add negative cases, error scenarios, or edge cases",
+      "is_blocking": false,
+      "citation_status": "not_applicable"
+    },
+    {
+      "type": "TEST_GAP",
+      "severity": "MEDIUM",
+      "layer": "L4",
+      "source": "core",
+      "rule_id": "TW204",
+      "evidence": "Retry/timeout logic detected but no failure/timeout test evidence",
+      "suggested_fix": "Add tests for timeout and failure scenarios",
+      "is_blocking": false,
+      "citation_status": "not_applicable"
+    },
+    {
+      "type": "OTHER",
+      "severity": "LOW",
+      "layer": "L2",
+      "source": "core",
+      "evidence": "L2 unreviewed — semantic issues may exist",
+      "is_blocking": false
+    }
+  ],
+  "llm_findings": [],
+  "blocking_issues": [],
+  "non_blocking_issues": [
+    {
+      "type": "SPEC_MISMATCH",
+      "severity": "MEDIUM",
+      "layer": "L1",
+      "source": "core",
+      "rule_id": "SV101",
+      "trust_deduction": 10,
+      "evidence": "Acceptance criterion not covered at execution level: \"**WHEN** a dap command prints valid JSON and exits 42\"",
+      "suggested_fix": "Add a test or assertion covering: **WHEN** a dap command prints valid JSON and exits 42",
+      "is_blocking": false,
+      "citation_status": "not_applicable"
+    },
+    {
+      "type": "SPEC_MISMATCH",
+      "severity": "MEDIUM",
+      "layer": "L1",
+      "source": "core",
+      "rule_id": "SV101",
+      "trust_deduction": 10,
+      "evidence": "Acceptance criterion not covered at execution level: \"**THEN** `runDapCli` returns kind `error` and the message names exit code 42.\"",
+      "suggested_fix": "Add a test or assertion covering: **THEN** `runDapCli` returns kind `error` and the message names exit code 42.",
+      "is_blocking": false,
+      "citation_status": "not_applicable"
+    },
+    {
+      "type": "TEST_GAP",
+      "severity": "MEDIUM",
+      "layer": "L4",
+      "source": "core",
+      "rule_id": "TW202",
+      "trust_deduction": 10,
+      "evidence": "Tests appear to cover happy path only for MEDIUM risk artifact",
+      "suggested_fix": "Add negative cases, error scenarios, or edge cases",
+      "is_blocking": false,
+      "citation_status": "not_applicable"
+    },
+    {
+      "type": "TEST_GAP",
+      "severity": "MEDIUM",
+      "layer": "L4",
+      "source": "core",
+      "rule_id": "TW204",
+      "evidence": "Retry/timeout logic detected but no failure/timeout test evidence",
+      "suggested_fix": "Add tests for timeout and failure scenarios",
+      "is_blocking": false,
+      "citation_status": "not_applicable"
+    },
+    {
+      "type": "OTHER",
+      "severity": "LOW",
+      "layer": "L2",
+      "source": "core",
+      "evidence": "L2 unreviewed — semantic issues may exist",
+      "is_blocking": false
+    }
+  ],
+  "missing_evidence": [],
+  "assumptions_detected": [
+    "L2 (semantic correctness) not reviewed — no LLM reviewer registered"
+  ],
+  "advisory_notes": [],
+  "score_breakdown": {
+    "base": 100,
+    "issue_deductions": 30,
+    "missing_evidence_deductions": 0,
+    "risk_deductions": 0,
+    "overconfidence_deductions": 0,
+    "evidence_bonuses": 10,
+    "final": 80
+  },
+  "fabricated_evidence": [],
+  "next_action": "Proceed with caution — review warnings",
+  "version": "0.5.2",
+  "schema_version": "0.2.0",
+  "trust_memory_summary": {
+    "agent_id": "orca-agent",
+    "reliability_score": 80,
+    "drift_trend": "stable",
+    "review_count": 1,
+    "last_reviewed_at": 1793801026405
+  },
+  "bound_diff_sha256": "ac3bb2711c3245fdabcc982b3bb9401bdb301bdbd75f8907b384bc975e2cf4bd",
+  "evidence_bound": {
+    "test_log_sha256": "7f3309e3e25da7cb067fbddc39963ed42218c99bf77dfb75ba2c29d72423f86f",
+    "build_log_sha256": null
+  }
+}
