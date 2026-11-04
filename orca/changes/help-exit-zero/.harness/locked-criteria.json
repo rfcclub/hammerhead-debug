@@ -1,0 +1,8 @@
+[
+  {
+    "id": "SC-1",
+    "text": "SC-1: `hammerhead-debug help`, `--help` and `-h` print the usage and exit 0; an unknown command still exits 1.",
+    "source_file": "intent.md",
+    "source_line": 16
+  }
+]

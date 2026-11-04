@@ -215,6 +215,9 @@ async function main(): Promise<void> {
       return cmdList(flags)
     case 'install':
       return cmdInstall(flags)
+    case 'help':
+    case '--help':
+    case '-h':
     default:
       process.stdout.write(`hammerhead-debug — hypothesis-gated debugging, DAP-native
 
@@ -230,7 +233,7 @@ Usage:
   hammerhead-debug check <session-id>
   hammerhead-debug list
 `)
-      process.exit(command ? 1 : 0)
+      process.exit(!command || ['help', '--help', '-h'].includes(command) ? 0 : 1)
   }
 }
 
