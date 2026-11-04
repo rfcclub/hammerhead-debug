@@ -108,3 +108,25 @@ describe('runDapProbe', () => {
     )
   })
 })
+
+describe('runDapProbe exit status', () => {
+  const spec = { script: 'app.py', breakpoints: [{ path: 'app.py', line: 2 }], evaluate: 'a + b' }
+  const exitRunner = (responses: Array<[string, number]>): DapCliRunner => {
+    let i = 0
+    return async () => {
+      const [stdout, exitCode] = responses[Math.min(i++, responses.length - 1)]
+      return { stdout, exitCode }
+    }
+  }
+
+  it('eval-nonzero: does not record an eval value from a nonzero exit', async () => {
+    const observation = await runDapProbe(spec, { runner: exitRunner([[STOPPED_JSON, 0], [EVAL_JSON, 42], ['OK\n', 0]]) })
+    expect(observation.captured).not.toContain('= 5')
+    expect(observation.captured).toContain('failed')
+  })
+
+  it('debug-nonzero: throws when debug exits nonzero', async () => {
+    const error = await runDapProbe(spec, { runner: exitRunner([[STOPPED_JSON, 42], ['OK\n', 0]]) }).then(() => null, (e: Error) => e)
+    expect(error?.message).toContain('dap debug failed')
+  })
+})

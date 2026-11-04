@@ -40,14 +40,17 @@ export type DapCliResult =
 export type DapCliRunner = (args: string[]) => Promise<{ stdout: string; exitCode: number }>
 
 export const defaultDapCliRunner =
-  (binPath: string): DapCliRunner =>
+  (binPath: string, timeoutMs = 60_000): DapCliRunner =>
   async (args: string[]) => {
     try {
-      const { stdout } = await execFileAsync(binPath, args, { timeout: 60_000 })
+      const { stdout } = await execFileAsync(binPath, args, { timeout: timeoutMs })
       return { stdout, exitCode: 0 }
     } catch (e) {
-      const err = e as { code?: number; stdout?: string }
-      return { stdout: err.stdout ?? '', exitCode: err.code ?? 1 }
+      // A spawn failure has a string code ('ENOENT') and a timeout kill has none:
+      // both are failures, so the exit code is always a nonzero number.
+      const err = e as { code?: number | string; stdout?: string; message?: string }
+      const exitCode = typeof err.code === 'number' && err.code !== 0 ? err.code : 1
+      return { stdout: err.stdout || `${err.message ?? 'dap failed'}\n`, exitCode }
     }
   }
 
@@ -78,6 +81,12 @@ export function classifyDapOutput(stdout: string): DapCliResult {
 }
 
 export async function runDapCli(run: DapCliRunner, args: string[]): Promise<DapCliResult> {
-  const { stdout } = await run([...args, '--json'])
-  return classifyDapOutput(stdout)
+  const { stdout, exitCode } = await run([...args, '--json'])
+  const result = classifyDapOutput(stdout)
+  // dap's own "Error:" and "Program terminated" text keeps its meaning; anything else
+  // from a failed command is not evidence of a stop or a value.
+  if (exitCode !== 0 && (result.kind === 'stopped' || result.kind === 'ok')) {
+    return { kind: 'error', message: `dap exited with code ${exitCode}`, raw: stdout }
+  }
+  return result
 }

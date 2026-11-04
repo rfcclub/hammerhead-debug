@@ -1,0 +1,16 @@
+scenarios:
+  - scenario: nonzero-exit-is-an-error-nonzero-json
+    test: tests/dap-cli.test.ts
+    assertion: "runDapCli exit status nonzero-json: valid JSON with a nonzero exit is an error"
+  - scenario: nonzero-exit-is-an-error-eval-nonzero
+    test: tests/dap-probe.test.ts
+    assertion: "runDapProbe exit status eval-nonzero: does not record an eval value from a nonzero exit"
+  - scenario: nonzero-exit-is-an-error-debug-nonzero
+    test: tests/dap-probe.test.ts
+    assertion: "runDapProbe exit status debug-nonzero: throws when debug exits nonzero"
+  - scenario: runner-failures-are-errors-spawn-failure
+    test: tests/dap-cli.test.ts
+    assertion: "runDapCli exit status spawn-failure: a missing dap binary is an error"
+  - scenario: runner-failures-are-errors-timeout
+    test: tests/dap-cli.test.ts
+    assertion: "runDapCli exit status timeout: a dap command past the timeout is an error"

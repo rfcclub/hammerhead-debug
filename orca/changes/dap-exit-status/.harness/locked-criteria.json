@@ -1,0 +1,20 @@
+[
+  {
+    "id": "SC-1",
+    "text": "SC-1: A `dap` command that exits nonzero is never classified as `stopped` or `ok`, whatever its stdout; `runDapProbe` does not record an eval value from it, and a nonzero `debug` throws.",
+    "source_file": "intent.md",
+    "source_line": 16
+  },
+  {
+    "id": "SC-2",
+    "text": "SC-2: A spawn failure or a timeout of the default runner yields a numeric nonzero exit code and an error result.",
+    "source_file": "intent.md",
+    "source_line": 17
+  },
+  {
+    "id": "SC-3",
+    "text": "SC-3: `Error:` and `Program terminated` output keep their current classification at any exit code; zero-exit behaviour is unchanged.",
+    "source_file": "intent.md",
+    "source_line": 18
+  }
+]
