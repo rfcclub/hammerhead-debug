@@ -1,0 +1,52 @@
+
+ RUN  v4.1.11 /Users/thoor/work/hammerhead-wt/help-exit
+
+Error: no confirmed hypothesis — collect evidence before fixing
+Error: resolve the open cycle (confirm/refute) before opening another
+Error: verdict without a captured observation — narration, not evidence
+Error: no confirmed hypothesis — collect evidence before fixing
+ ❯ tests/cli.test.ts (9 tests | 1 failed) 1123ms
+   × help-flags: help, --help and -h exit 0; an unknown command exits 1 97ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cli.test.ts > help-flags: help, --help and -h exit 0; an unknown command exits 1
+AssertionError: expected [ [ 1, true ], [ 1, true ], …(1) ] to deeply equal [ [ +0, true ], [ +0, true ], …(1) ]
+
+- Expected
++ Received
+
+  [
+    [
+-     0,
++     1,
+      true,
+    ],
+    [
+-     0,
++     1,
+      true,
+    ],
+    [
+-     0,
++     1,
+      true,
+    ],
+  ]
+
+ ❯ tests/cli.test.ts:120:66
+    118|   const run = (arg: string) => spawnSync('node', [cliPath, arg], { enc…
+    119|   const runs = ['help', '--help', '-h'].map(run)
+    120|   expect(runs.map(r => [r.status, r.stdout.includes('Usage:')])).toEqu…
+       |                                                                  ^
+    121|   expect(run('no-such-command').status).toBe(1)
+    122| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  10:18:20
+   Duration  1.22s (transform 11ms, setup 0ms, import 21ms, tests 1.12s, environment 0ms)
+

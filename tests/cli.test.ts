@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { execFileSync } from 'child_process'
+import { execFileSync, spawnSync } from 'child_process'
 import { mkdirSync, rmSync, existsSync } from 'fs'
 import { join } from 'path'
 import { tmpdir } from 'os'
@@ -112,4 +112,11 @@ describe('hammerhead-debug CLI', () => {
     const result = run(['bogus-command'])
     expect(result.status).toBe(1)
   })
+})
+
+it('help-flags: help, --help and -h exit 0; an unknown command exits 1', () => {
+  const run = (arg: string) => spawnSync('node', [cliPath, arg], { encoding: 'utf-8' })
+  const runs = ['help', '--help', '-h'].map(run)
+  expect(runs.map(r => [r.status, r.stdout.includes('Usage:')])).toEqual([[0, true], [0, true], [0, true]])
+  expect(run('no-such-command').status).toBe(1)
 })
